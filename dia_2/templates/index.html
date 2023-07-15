@@ -1,0 +1,178 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diabetes prediction using Machine Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[url('{% static 'img/Earth.jpg' %}')] bg-cover flex flex-col items-center p-20">
+    <div class="flex flex-col items-center">
+      <h1 class="text-[#FAE4B5] text-6xl tracking-widest">
+        Disease Predictor
+      </h1>
+      <h2 class="text-white text-3xl mt-2">
+        made using <span class="text-4xl">Machine Learning</span>
+      </h2>
+    </div>
+    <div class="items-center flex flex-col my-[10vw]" id="checkStatus">
+      <p class="text-white text-2xl">Check your status</p>
+      <button
+        class="bg-[#FAE4B5] text-black py-2 px-8 text-xl rounded font-bold flex justify-center items-center mt-2" onclick="tryItdia()"
+      >
+        Diabetes
+        <button
+        class="bg-[#FAE4B5] text-black py-2 px-8 text-xl rounded font-bold flex justify-center items-center mt-2" onclick="tryItpark()"
+      >
+        Parkinson
+
+        <button
+        class="bg-[#FAE4B5] text-black py-2 px-8 text-xl rounded font-bold flex justify-center items-center mt-2" onclick="tryItheart()"
+      >
+        Heart Disease
+    </div>
+    <!-- Form for taking the data to test  -->
+    <div class="mt-10 hidden" id="formdia">
+      <form action="/predictdiabetes" class="bg-[#D9D9D9] grid rounded w-[25vw] p-5" method="post">
+        {% csrf_token %}
+        <p id="message" style="color: red;"><b>If you don't know the value then put 0</b></p>
+        <label for="for"> Name </label>
+        <input type="text" class="input_field" name="name" />
+        <label for="for"> Age </label>
+        <input type="text" class="input_field" name="age"/>
+        <label for="gender"> Gender </label>
+        <div class="input-field">
+          <input type="radio" name="Gender" id="gender" class="scale-125" value="0"> Male</input>
+          <input type="radio" name="Gender" id="gender" class="scale-125" value="1"> Female</input>
+        </div>
+        <label for="for"> Diabetes pedigree function </label>
+        <input type="text" class="input_field">
+        <label for="for"> Height </label>
+        <input type="text" class="input_field" name="height">
+        <label for="for"> Weight </label>
+        <input type="text" class="input_field"  name="weight">
+        <label for="for"> Insulin </label>
+        <input type="text" class="input_field" name="insulin">
+        <label for="for"> Blood pressure(Diastolic) </label>
+        <input type="text" class="input_field" name="bp">
+        <label for="for"> Glucose(Blood glucose level) </label>
+        <input type="text" class="input_field" name="glu">
+        <div class="grid">
+            <label for="for"> Pregnency </label>
+            <input type="text" class="input_field" name="preg">
+        </div>
+        <button type="submit" id="submit" class="bg-[#FAE4B5] text-black py-2 px-8 text-xl rounded font-bold flex justify-center items-center mt-2 border-[1px] border-black">Submit</button>
+      </form>
+    </div>
+
+    <div class="mt-10 hidden" id="formpark">
+      <form action="/predictparkinson" class="bg-[#D9D9D9] grid rounded w-[25vw] p-5" method="post">
+        {% csrf_token %}
+        <p id="message" style="color: red;"><b>If you don't know the value then put 0</b></p>
+        <label for="for"> Name </label>
+        <input type="text" class="input_field" name="Name"/>
+        <label for="for"> MDVP:Fo(Hz) </label>
+        <input type="text" class="input_field" name="MDVP:Fo(Hz)"/>
+        <label for="for"> MDVP:Fhi(Hz) </label>
+        <input type="text" class="input_field" name="MDVP:Fhi(Hz)"/>
+        <label for="for"> MDVP:Flo(Hz) </label>
+        <input type="text" class="input_field" name="MDVP:Flo(Hz)"/>
+        <label for="for"> MDVP:Jitter(%) </label>
+        <input type="text" class="input_field" name="MDVP:Jitter(%)"/>
+        <label for="for"> MDVP:Jitter(Abs)</label>
+        <input type="text" class="input_field" name="MDVP:Jitter(Abs)"/>
+        <label for="for"> MDVP:RAP</label>
+        <input type="text" class="input_field" name="MDVP:RAP"/>
+        <label for="for"> MDVP:PPQ</label>
+        <input type="text" class="input_field" name="MDVP:PPQ"/>
+        <label for="for"> Jitter:DDP</label>
+        <input type="text" class="input_field" name="Jitter:DDP"/>
+        <label for="for"> MDVP:Shimmer</label>
+        <input type="text" class="input_field" name="MDVP:Shimmer"/>
+        <label for="for"> MDVP:Shimmer(dB)</label>
+        <input type="text" class="input_field" name="MDVP:Shimmer(dB)"/>
+        <label for="for"> Shimmer:APQ3</label>
+        <input type="text" class="input_field" name="Shimmer:APQ3"/>
+        <label for="for"> Shimmer:APQ5</label>
+        <input type="text" class="input_field" name="Shimmer:APQ5"/>
+        <label for="for"> MDVP:APQ</label>
+        <input type="text" class="input_field" name="MDVP:APQ"/>
+        <label for="for"> Shimmer:DDA</label>
+        <input type="text" class="input_field" name="Shimmer:DDA"/>
+        <label for="for"> NHR</label>
+        <input type="text" class="input_field" name="NHR"/>
+        <label for="for"> HNR</label>
+        <input type="text" class="input_field" name="HNR"/>
+        <label for="for"> RPDE</label>
+        <input type="text" class="input_field" name="RPDE"/>
+        <label for="for"> DFA</label>
+        <input type="text" class="input_field" name="DFA"/>
+        <label for="for"> spread1</label>
+        <input type="text" class="input_field" name="spread1"/>
+        <label for="for"> spread2</label>
+        <input type="text" class="input_field" name="spread2"/>
+        <label for="for"> D2</label>
+        <input type="text" class="input_field" name="D2"/>
+        <label for="for"> PPE</label>
+        <input type="text" class="input_field" name="PPE"/>
+        <button type="submit" id="submit" class="bg-[#FAE4B5] text-black py-2 px-8 text-xl rounded font-bold flex justify-center items-center mt-2 border-[1px] border-black">Submit</button>
+      </form>
+    </div>
+
+
+    <div class="mt-10 hidden" id="formheart">
+      <form action="/predictheart" class="bg-[#D9D9D9] grid rounded w-[25vw] p-5" method="post">
+        {% csrf_token %}
+        <p id="message" style="color: red;"><b>If you don't know the value then put 0</b></p>
+        <label for="for"> age </label>
+        <input type="text" class="input_field" name="age"/>
+        <label for="for"> sex </label>
+        <input type="text" class="input_field" name="sex"/>
+        <label for="for"> cp </label>
+        <input type="text" class="input_field" name="cp"/>
+        <label for="for"> trestbps </label>
+        <input type="text" class="input_field" name="trestbps"/>
+        <label for="for"> chol </label>
+        <input type="text" class="input_field" name="chol"/>
+        <label for="for"> fbs</label>
+        <input type="text" class="input_field" name="fbs"/>
+        <label for="for"> restecg</label>
+        <input type="text" class="input_field" name="restecg"/>
+        <label for="for"> thalach</label>
+        <input type="text" class="input_field" name="thalach"/>
+        <label for="for"> exang</label>
+        <input type="text" class="input_field" name="exang"/>
+        <label for="for"> oldpeak</label>
+        <input type="text" class="input_field" name="oldpeak"/>
+        <label for="for"> slope</label>
+        <input type="text" class="input_field" name="slope"/>
+        <label for="for"> ca</label>
+        <input type="text" class="input_field" name="ca"/>
+        <label for="for"> thal</label>
+        <input type="text" class="input_field" name="thal"/>
+        <button type="submit" id="submit" class="bg-[#FAE4B5] text-black py-2 px-8 text-xl rounded font-bold flex justify-center items-center mt-2 border-[1px] border-black">Submit</button>
+      </form>
+    </div>
+    <script>
+      const checkStatus = document.querySelector("#checkStatus");
+
+function tryItdia(){
+    checkStatus.style.display="none";
+    document.querySelector("#formdia").style.display="block"
+}
+
+function tryItpark(){
+    checkStatus.style.display="none";
+    document.querySelector("#formpark").style.display="block"
+}
+
+function tryItheart(){
+    checkStatus.style.display="none";
+    document.querySelector("#formheart").style.display="block"
+}
+
+    </script>
+  </body>
+</html>
